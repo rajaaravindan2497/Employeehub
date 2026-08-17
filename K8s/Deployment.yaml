@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: employeehub_deployment
+  name: employeehub-deployment
   namespace: employeehub
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: employeehub
+      app: employehub
   template:
     metadata:
       labels:
-        app: employeehub
+        app: employehub
     spec:
       containers:
-        - name: employeehub
+        - name: employeeshub
           image: rajaaaravindan2497/employeehub:875f30c
           ports:
             - containerPort: 80
