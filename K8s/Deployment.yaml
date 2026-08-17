@@ -15,6 +15,7 @@ spec:
     spec:
       containers:
         - name: employeeshub
-          image: rajaaaravindan2497/employeehub:875f30c
+          image: docker.io/rajaaravindan2497/employeehub:875f30c
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
