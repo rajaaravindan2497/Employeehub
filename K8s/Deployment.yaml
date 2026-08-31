@@ -18,7 +18,7 @@ spec:
           image: docker.io/rajaaravindan2497/employeehub:875f30c
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 5000
           env:
             - name: DB_HOST
               value: postgres-service
