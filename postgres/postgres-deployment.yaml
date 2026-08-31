@@ -24,7 +24,10 @@ spec:
             - name: POSTGRES_USER
               value: employeehub
             - name: POSTGRES_PASSWORD
-              value: REMOVED
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: DB_PASSWORD
             - name: PGDATA
               value: /var/lib/postgresql/data/pgdata
           volumeMounts:
