@@ -27,6 +27,8 @@ prometheus:
           resources:
             requests:
               storage: 20Gi
+  service:
+    type: LoadBalancer
 
 alertmanager:
   enabled: true
