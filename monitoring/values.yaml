@@ -1,4 +1,20 @@
+grafana:
+  enabled: true
+
+  persistence:
+    enabled: true
+    type: pvc
+    storageClassName: gp3
+    accessModes:
+      - ReadWriteOnce
+    size: 10Gi
+
+  service:
+    type: LoadBalancer
+
 prometheus:
+  enabled: true
+
   prometheusSpec:
     retention: 7d
 
@@ -12,17 +28,9 @@ prometheus:
             requests:
               storage: 20Gi
 
-grafana:
-  persistence:
-    enabled: true
-    storageClassName: gp3
-    accessModes:
-      - ReadWriteOnce
-    size: 10Gi
-
-  adminUser: admin
-
 alertmanager:
+  enabled: true
+
   alertmanagerSpec:
     storage:
       volumeClaimTemplate:
@@ -33,3 +41,9 @@ alertmanager:
           resources:
             requests:
               storage: 5Gi
+
+nodeExporter:
+  enabled: true
+
+kubeStateMetrics:
+  enabled: true
