@@ -41,11 +41,13 @@ ignoreMinioDeprecation: true
 minio:
   enabled: true
   persistence:
+    enabled: true
     storageClass: gp3
+    size: 20Gi
 
 chunksCache:
   enabled: true
-  allocatedMemory: 512
+  allocatedMemory: 600
   resources:
     requests:
       cpu: 50m
