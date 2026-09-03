@@ -15,7 +15,7 @@ spec:
           - $values/loki/values.yaml
 
     - repoURL: https://github.com/rajaaravindan2497/Employeehub.git
-      targetRevision: main
+      targetRevision: ceace82d166cb00ac731d62f0d7e1affaeb0a46d
       ref: values
 
   destination:
