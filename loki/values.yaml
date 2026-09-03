@@ -26,18 +26,16 @@ deploymentMode: Monolithic
 
 singleBinary:
   replicas: 1
-
-# Persistent storage for Loki
   persistence:
     enabled: true
     storageClass: gp3
     accessModes:
       - ReadWriteOnce
     size: 20Gi
-  service:
-    type: LoadBalancer
 
-# Temporary MinIO storage for development/testing
+service:
+  type: LoadBalancer
+
 ignoreMinioDeprecation: true
 
 minio:
@@ -46,13 +44,15 @@ minio:
     storageClass: gp3
 
 chunksCache:
-  allocatedMemory: 512
+  enabled: true
+  allocatedMemory: 600
   resources:
     requests:
       cpu: 50m
       memory: 600Mi
     limits:
       memory: 600Mi
+
 
 # Disable other deployment modes
 backend:
