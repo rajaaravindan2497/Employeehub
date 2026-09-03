@@ -42,6 +42,17 @@ ignoreMinioDeprecation: true
 
 minio:
   enabled: true
+  persistence:
+    storageClass: gp3
+
+chunksCache:
+  allocatedMemory: 512
+  resources:
+    requests:
+      cpu: 50m
+      memory: 600Mi
+    limits:
+      memory: 600Mi
 
 # Disable other deployment modes
 backend:
