@@ -43,19 +43,12 @@ minio:
   persistence:
     enabled: true
     storageClass: gp3
-    size: 20Gi
+    size: 5Gi
 
+# Disable chunks cache because the cluster does not have enough memory
 chunksCache:
-  enabled: true
-  allocatedMemory: 600
-  resources:
-    requests:
-      cpu: 50m
-      memory: 600Mi
-    limits:
-      memory: 600Mi
+  enabled: false
 
-# Disable other deployment modes
 backend:
   replicas: 0
 
