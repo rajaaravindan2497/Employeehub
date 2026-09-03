@@ -32,10 +32,10 @@ singleBinary:
     accessModes:
       - ReadWriteOnce
     size: 20Gi
+  service:
+    type: LoadBalancer
 
-service:
-  type: LoadBalancer
-
+# Temporary MinIO storage for development/testing
 ignoreMinioDeprecation: true
 
 minio:
@@ -45,14 +45,13 @@ minio:
 
 chunksCache:
   enabled: true
-  allocatedMemory: 600
+  allocatedMemory: 512
   resources:
     requests:
       cpu: 50m
       memory: 600Mi
     limits:
       memory: 600Mi
-
 
 # Disable other deployment modes
 backend:
