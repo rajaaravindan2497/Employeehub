@@ -33,10 +33,14 @@ singleBinary:
       - ReadWriteOnce
     size: 20Gi
 
-ignoreMinioDeprecation: true
+chunksCache:
+  enabled: false
+
+resultsCache:
+  enabled: false
 
 minio:
-  enabled: true
+  enabled: false
 
 backend:
   replicas: 0
