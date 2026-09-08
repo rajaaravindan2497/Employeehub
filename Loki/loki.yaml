@@ -29,3 +29,20 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loki-gateway-external
+  namespace: loki
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: gateway
+    app.kubernetes.io/instance: loki
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+      protocol: TCP
