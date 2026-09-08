@@ -44,6 +44,11 @@ resultsCache:
 minio:
   enabled: false
 
+# Loki Gateway
+gateway:
+  service:
+    type: LoadBalancer
+
 # Disable distributed-mode components
 backend:
   replicas: 0
