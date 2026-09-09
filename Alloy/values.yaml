@@ -22,7 +22,10 @@ alloy:
       }
 
       loki.write "endpoint" {
-        endpoint {
-          url = "http://loki-gateway.loki.svc.cluster.local/loki/api/v1/push"
-        }
+          endpoint {
+            url = "http://loki-gateway.loki.svc.cluster.local/loki/api/v1/push"
+            headers = {
+              "X-Scope-OrgID" = "1"
+            }
+          }
       }
