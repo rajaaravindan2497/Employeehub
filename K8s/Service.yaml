@@ -4,7 +4,7 @@ metadata:
   name: employeehub-service
   namespace: employeehub
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: employehub
   ports:
