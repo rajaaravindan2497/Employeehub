@@ -11,7 +11,8 @@ def get_db_connection():
         port=os.environ.get("DB_PORT", "5432"),
         database=os.environ["DB_NAME"],
         user=os.environ["DB_USERNAME"],
-        password=os.environ["DB_PASSWORD"]
+        password=os.environ["DB_PASSWORD"],
+        connect_timeout=5
     )
 
 
