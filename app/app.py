@@ -5,13 +5,13 @@ from flask import Flask, render_template, request, redirect, url_for
 app = Flask(name)
 
 def get_db_connection():
-return psycopg2.connect(
-host=os.environ["DB_HOST"],
-port=os.environ.get("DB_PORT", "5432"),
-database=os.environ["DB_NAME"],
-user=os.environ["DB_USERNAME"],
-password=os.environ["DB_PASSWORD"]
-)
+    return psycopg2.connect(
+        host=os.environ["DB_HOST"],
+        port=os.environ.get("DB_PORT", "5432"),
+        database=os.environ["DB_NAME"],
+        user=os.environ["DB_USERNAME"],
+        password=os.environ["DB_PASSWORD"]
+    )
 
 def initialize_database():
 """Create the employees table if it does not already exist."""
