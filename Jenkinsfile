@@ -2,10 +2,13 @@ pipeline {
 
     agent any
 
-    environment {
-        DOCKER_IMAGE = 'docker.io/rajaaravindan2497/employeehub'
-        MANIFEST     = 'K8s/Deployment.yaml'
-    }
+   environment {
+    EMPLOYEE_IMAGE = 'docker.io/rajaaravindan2497/employeehub'
+    ADMIN_IMAGE    = 'docker.io/rajaaravindan2497/employeehub-admin'
+
+    EMPLOYEE_MANIFEST = 'K8s/Deployment.yaml'
+    ADMIN_MANIFEST    = 'K8s/Admin-Deployment.yaml'
+}
 
     stages {
 
@@ -25,13 +28,15 @@ pipeline {
                         returnStdout: true
                     ).trim()
 
-                    env.IMAGE = "${DOCKER_IMAGE}:${COMMIT_SHA}"
+                    env.EMPLOYEE_IMAGE_TAG = "${EMPLOYEE_IMAGE}:${COMMIT_SHA}"
+                    env.ADMIN_IMAGE_TAG    = "${ADMIN_IMAGE}:${COMMIT_SHA}"
 
                     echo "======================================"
                     echo " EmployeeHub CI/CD Pipeline"
                     echo "======================================"
                     echo "Git Commit  : ${COMMIT_SHA}"
-                    echo "Docker Image: ${IMAGE}"
+                    echo "Docker Image: ${EMPLOYEE_IMAGE}"
+                    echo "Docker Image: ${ADMIN_IMAGE}"
                 }
             }
         }
@@ -43,15 +48,14 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-
-                echo "=== Building EmployeeHub ==="
-
                 sh '''
                     set -e
-
-                    docker build -t "$IMAGE" .
+                    echo "=== Building EmployeeHub ==="
+                    docker build -t "$EMPLOYEE_IMAGE_TAG" .
+                    
+                    echo "Building EmployeeHub Admin..."
+                    docker build -t "$ADMIN_IMAGE_TAG" ./Admin
                 '''
-
                 echo "=== Docker build completed ==="
             }
         }
@@ -81,9 +85,10 @@ pipeline {
                             -u "$DOCKERHUB_USERNAME" \
                             --password-stdin
 
-                        echo "=== Pushing EmployeeHub ==="
+                        echo "=== Pushing EmployeeHub and EmployeeHub-admin ==="
 
-                        docker push "$IMAGE"
+                        docker push "$EMPLOYEE_IMAGE_TAG"
+                        docker push "$ADMIN_IMAGE_TAG"
 
                         docker logout
                     '''
@@ -100,19 +105,24 @@ pipeline {
 
         stage('Update Kubernetes Manifest') {
             steps {
-
-                echo "=== Updating Kubernetes manifest ==="
-
                 sh '''
                     set -e
 
+                    echo "Updating EmployeeHub image..."
                     sed -i \
-                        "s|image: docker.io/rajaaravindan2497/employeehub:.*|image: $IMAGE|" \
-                        "$MANIFEST"
+                        "s|image: docker.io/rajaaravindan2497/employeehub:.*|image: $EMPLOYEE_IMAGE_TAG|" \
+                        "$EMPLOYEE_MANIFEST"
 
-                    echo "=== Updated image ==="
+                    echo "Updating Admin image..."
+                    sed -i \
+                        "s|image: docker.io/rajaaravindan2497/employeehub-admin:.*|image: $ADMIN_IMAGE_TAG|" \
+                        "$ADMIN_MANIFEST"
 
-                    grep "image:" "$MANIFEST"
+                    echo "=== EmployeeHub ==="
+                    grep "image:" "$EMPLOYEE_MANIFEST"
+
+                    echo "=== Admin ==="
+                    grep "image:" "$ADMIN_MANIFEST"
                 '''
             }
         }
@@ -141,7 +151,7 @@ pipeline {
                         git config user.name "Jenkins"
                         git config user.email "jenkins@employeehub.local"
 
-                        git add "$MANIFEST"
+                        git add "$EMPLOYEE_MANIFEST" "$ADMIN_MANIFEST"
 
                         if git diff --cached --quiet; then
 

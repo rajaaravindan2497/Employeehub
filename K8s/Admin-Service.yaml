@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: employeehub-admin-service
+  namespace: employeehub
+spec:
+  selector:
+    app: employeehub-admin
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP

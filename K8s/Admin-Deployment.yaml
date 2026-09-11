@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: employeehub-admin
+  namespace: employeehub
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: employeehub-admin
+  template:
+    metadata:
+      labels:
+        app: employeehub-admin
+    spec:
+      containers:
+        - name: employeehub-admin
+          image: docker.io/rajaaravindan2497/employeehub-admin:latest
+          ports:
+            - containerPort: 80
